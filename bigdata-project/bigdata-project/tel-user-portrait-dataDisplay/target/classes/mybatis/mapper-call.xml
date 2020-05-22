@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pku.qingxin.datadisplay.dao.CallLogDao" >
+
+
+    <select id="queryMonthDatas" resultType="pku.qingxin.datadisplay.bean.CallLog">
+        select * from tel_call WHERE  tel_id = (
+        SELECT id
+        FROM contacts
+        WHERE tel = #{tel}
+        ) and date_id IN (
+        SELECT
+          id
+        FROM date
+        WHERE  year = #{calltime} and month is not null and day is null
+        )
+    </select>
+    
+    <select id="queryTotalTelDatas" resultType="pku.qingxin.datadisplay.bean.TotalTel">
+        select tel_call.date_id as 'id',date.month as 'month',sum(tel_call.sum_call) as 'sumCall',sum(tel_call.sum_duration) as 'sumDuration'
+        from tel_call JOIN date ON tel_call.date_id = date.id
+        WHERE
+        tel_call.date_id IN
+        (SELECT id FROM date WHERE year = #{calltime}  and `month` is not null and `day` is NULL)
+        GROUP BY tel_call.date_id
+
+
+    </select>
+    
+    <select id="queryAddressCaller" resultType="pku.qingxin.datadisplay.bean.AddressCaller">
+        SELECT contacts.address as 'address',sum(sum_call) as 'sumCall'
+        FROM callPath JOIN contacts ON callPath.caller_id = contacts.id
+        where callPath.date_id = (SELECT id from date where year = #{calltime} and month is null and day is null)
+        GROUP BY contacts.address
+    </select>
+
+    <select id="queryAddressCallee" resultType="pku.qingxin.datadisplay.bean.AddressCallee">
+        SELECT contacts.address as 'address',sum(sum_call) as 'sumCall'
+        FROM callPath JOIN contacts ON callPath.callee_id = contacts.id
+        where callPath.date_id = (SELECT id from date where year = #{calltime} and month is null and day is null)
+        GROUP BY contacts.address
+    </select>
+    
+    <select id="queryCallPath" resultType="pku.qingxin.datadisplay.bean.CallPath">
+        SELECT
+        callPath.caller_id as 'callerId',a.address as 'address1',callPath.callee_id as 'calleeId',b.address as 'address2'
+        FROM callPath JOIN contacts a
+        ON callPath.caller_id = a.id JOIN contacts b on callPath.callee_id = b.id
+        where callPath.date_id = (SELECT id from date where year = #{calltime} and month is null and day is null)
+        GROUP BY callPath.caller_id,a.address,callPath.callee_id,b.address
+
+    </select>
+
+
+
+    <select id="queryPerTelDatas" resultType="pku.qingxin.datadisplay.bean.PerTel">
+         select date.`month` as 'month',sum_call as 'sumCall',sum_duration as 'sumDuration'
+          from tel_call JOIN date ON tel_call.date_id = date.id
+          WHERE  tel_call.tel_id = (
+        SELECT id
+        FROM contacts
+        WHERE tel = #{tel}
+        ) and tel_call.date_id IN (
+        SELECT
+          id
+        FROM date
+        WHERE  year = #{calltime} and month is not null and day is null
+        )
+
+    </select>
+
+    <select id="queryCallerMan" resultType="pku.qingxin.datadisplay.bean.CallGender">
+        select c.`month` as 'month',sum(sum_call) as 'sumCall'
+        from callPath a JOIN contacts b ON a.callee_id = b.id JOIN date c ON a.date_id = c.id
+        WHERE
+        a.caller_id = (
+        SELECT id
+        FROM contacts
+        WHERE tel = #{tel}
+        )
+        and
+        a.date_id IN (
+        SELECT
+          id
+        FROM date
+        WHERE  year = #{calltime} and month is not null and day is null
+        )
+        and
+        b.gender = '男'
+        GROUP BY a.caller_id,a.date_id
+    </select>
+
+    <select id="queryCalleeMan" resultType="pku.qingxin.datadisplay.bean.CallGender">
+        select c.`month` as 'month',sum(sum_call) as 'sumCall'
+        from callPath a JOIN contacts b ON a.caller_id = b.id JOIN date c ON a.date_id = c.id
+        WHERE
+        a.callee_id = (
+        SELECT id
+        FROM contacts
+        WHERE tel = #{tel}
+        )
+        and
+        a.date_id IN (
+        SELECT
+        id
+        FROM date
+        WHERE  year = #{calltime} and month is not null and day is null
+        )
+        and
+        b.gender = '男'
+        GROUP BY a.callee_id,a.date_id
+    </select>
+
+    <select id="queryCallerWoman" resultType="pku.qingxin.datadisplay.bean.CallGender">
+        select c.`month` as 'month',sum(sum_call) as 'sumCall'
+        from callPath a JOIN contacts b ON a.callee_id = b.id JOIN date c ON a.date_id = c.id
+        WHERE
+        a.caller_id = (
+        SELECT id
+        FROM contacts
+        WHERE tel = #{tel}
+        )
+        and
+        a.date_id IN (
+        SELECT
+        id
+        FROM date
+        WHERE  year = #{calltime} and month is not null and day is null
+        )
+        and
+        b.gender = '女'
+        GROUP BY a.caller_id,a.date_id
+    </select>
+
+    <select id="queryCalleeWoman" resultType="pku.qingxin.datadisplay.bean.CallGender">
+        select c.`month` as 'month',sum(sum_call) as 'sumCall'
+        from callPath a JOIN contacts b ON a.caller_id = b.id JOIN date c ON a.date_id = c.id
+        WHERE
+        a.callee_id = (
+        SELECT id
+        FROM contacts
+        WHERE tel = #{tel}
+        )
+        and
+        a.date_id IN (
+        SELECT
+        id
+        FROM date
+        WHERE  year = #{calltime} and month is not null and day is null
+        )
+        and
+        b.gender = '女'
+        GROUP BY a.callee_id,a.date_id
+    </select>
+    
+    <select id="queryIntimacy" resultType="pku.qingxin.datadisplay.bean.Intimacy">
+        select c.`month` as 'month',g.`name` as 'name',a.sum_call as 'sumCall',a.sum_duration as 'sumDuration'
+        from intimacy a JOIN contacts b ON a.tel_id1 = b.id JOIN date c ON a.date_id = c.id JOIN contacts g ON a.tel_id2 = g.id
+        WHERE
+        a.tel_id1 = ( SELECT id FROM contacts WHERE tel = #{tel})
+        and
+        a.date_id IN (SELECT id FROM date WHERE  year = #{calltime} and month is not null and day is null)
+        AND
+        not EXISTS(
+        SELECT 1
+        FROM intimacy d JOIN contacts e ON d.tel_id1 = e.id
+        WHERE
+        a.tel_id1 = d.tel_id1
+        AND
+        a.date_id = d.date_id
+        and
+        (d.sum_call * d.sum_duration) > (a.sum_call * a.sum_duration)
+        )
+    </select>
+    
+    <select id="queryPerCallPath" resultType="pku.qingxin.datadisplay.bean.CallPath">
+         SELECT
+         callPath.caller_id as 'callerId',a.address as 'address1',callPath.callee_id as 'calleeId',b.address as 'address2'
+         FROM callPath JOIN contacts a ON callPath.caller_id = a.id JOIN contacts b on callPath.callee_id = b.id
+         where
+        callPath.caller_id = (SELECT id FROM contacts WHERE tel = #{tel})
+        AND
+        callPath.date_id = (SELECT id from date where year = #{calltime} and month is null and day is null)
+        GROUP BY callPath.caller_id,a.address,callPath.callee_id,b.address
+    </select>
+
+    <select id="queryPerInfo" resultType="pku.qingxin.datadisplay.bean.Contact">
+        SELECT * from contacts where tel = #{tel}
+    </select>
+
+    
+    <select id="queryContacts" resultType="pku.qingxin.datadisplay.bean.Contact">
+        SELECT * FROM contacts
+    </select>
+
+    <select id="queryAddress" resultType="pku.qingxin.datadisplay.bean.Address">
+        SELECT address,count(*) as 'num' FROM contacts GROUP BY address
+    </select>
+
+
+    
+    <select id="queryAddressGender" resultType="pku.qingxin.datadisplay.bean.AddressGender">
+            SELECT a.address,a.gender1,a.num1,b.gender2,b.num2   FROM
+(SELECT address,gender as 'gender1',count(*) as 'num1' FROM contacts WHERE gender = '男' GROUP BY address) as a
+JOIN
+(SELECT address,gender as 'gender2',count(*) as 'num2' FROM contacts WHERE gender = '女' GROUP BY address) as b
+ON
+a.address = b.address
+
+    </select>
+    
+    <select id="queryWomen1" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &lt; 20 and gender = '女'
+    </select>
+
+    <select id="queryWomen2" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 20 and age &lt;30 and gender = '女'
+    </select>
+
+    <select id="queryWomen3" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 30 and age &lt;40 and gender = '女'
+    </select>
+
+    <select id="queryWomen4" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 40 and age &lt;50 and gender = '女'
+    </select>
+
+    <select id="queryWomen5" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 50 and age &lt;60 and gender = '女'
+    </select>
+
+    <select id="queryWomen6" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 60 and gender = '女'
+    </select>
+
+    <select id="queryMen1" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &lt; 20 and gender = '男'
+    </select>
+
+    <select id="queryMen2" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 20 and age &lt;30 and gender = '男'
+    </select>
+
+    <select id="queryMen3" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 30 and age &lt;40 and gender = '男'
+    </select>
+
+    <select id="queryMen4" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 40 and age &lt;50 and gender = '男'
+    </select>
+
+    <select id="queryMen5" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 50 and age &lt;60 and gender = '男'
+    </select>
+
+    <select id="queryMen6" resultType="java.lang.Integer">
+        SELECT count(*) FROM contacts WHERE age &gt;= 60 and gender = '男'
+    </select>
+
+
+</mapper>

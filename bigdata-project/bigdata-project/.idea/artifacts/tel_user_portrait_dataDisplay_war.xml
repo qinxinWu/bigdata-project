@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="tel-user-portrait-dataDisplay:war">
+    <output-path>$PROJECT_DIR$/tel-user-portrait-dataDisplay/target</output-path>
+    <root id="archive" name="tel-user-portrait-dataDisplay.war">
+      <element id="artifact" artifact-name="tel-user-portrait-dataDisplay:war exploded" />
+    </root>
+  </artifact>
+</component>

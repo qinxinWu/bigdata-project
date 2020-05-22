@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bigdata-project.iml" filepath="$PROJECT_DIR$/bigdata-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tel-user-portrait-common/tel-user-portrait-common.iml" filepath="$PROJECT_DIR$/tel-user-portrait-common/tel-user-portrait-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tel-user-portrait-dataAnalysis/tel-user-portrait-dataAnalysis.iml" filepath="$PROJECT_DIR$/tel-user-portrait-dataAnalysis/tel-user-portrait-dataAnalysis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tel-user-portrait-dataCache/tel-user-portrait-dataCache.iml" filepath="$PROJECT_DIR$/tel-user-portrait-dataCache/tel-user-portrait-dataCache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tel-user-portrait-dataConsumer/tel-user-portrait-dataConsumer.iml" filepath="$PROJECT_DIR$/tel-user-portrait-dataConsumer/tel-user-portrait-dataConsumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tel-user-portrait-dataCoprocessor/tel-user-portrait-dataCoprocessor.iml" filepath="$PROJECT_DIR$/tel-user-portrait-dataCoprocessor/tel-user-portrait-dataCoprocessor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tel-user-portrait-dataDisplay/tel-user-portrait-dataDisplay.iml" filepath="$PROJECT_DIR$/tel-user-portrait-dataDisplay/tel-user-portrait-dataDisplay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tel-user-portrait-dataProducer/tel-user-portrait-dataProducer.iml" filepath="$PROJECT_DIR$/tel-user-portrait-dataProducer/tel-user-portrait-dataProducer.iml" />
+    </modules>
+  </component>
+</project>

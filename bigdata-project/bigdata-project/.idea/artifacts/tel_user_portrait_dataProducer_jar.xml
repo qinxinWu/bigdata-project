@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact name="tel-user-portrait-dataProducer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/tel_user_portrait_dataProducer_jar</output-path>
+    <root id="root">
+      <element id="archive" name="tel-user-portrait-dataProducer.jar">
+        <element id="module-output" name="tel-user-portrait-dataProducer" />
+        <element id="module-output" name="tel-user-portrait-common" />
+      </element>
+    </root>
+  </artifact>
+</component>

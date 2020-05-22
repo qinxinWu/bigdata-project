@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="tel-user-portrait-common" />
+        <module name="tel-user-portrait-dataAnalysis" />
+        <module name="tel-user-portrait-dataCache" />
+        <module name="tel-user-portrait-dataConsumer" />
+        <module name="tel-user-portrait-dataCoprocessor" />
+        <module name="tel-user-portrait-dataDisplay" />
+        <module name="tel-user-portrait-dataProducer" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bigdata-project" target="1.8" />
+      <module name="qingxin-graduation-project" target="1.8" />
+      <module name="tel-user-portrait-common" target="1.8" />
+      <module name="tel-user-portrait-dataAnalysis" target="1.8" />
+      <module name="tel-user-portrait-dataCache" target="1.8" />
+      <module name="tel-user-portrait-dataConsumer" target="1.8" />
+      <module name="tel-user-portrait-dataCoprocessor" target="1.8" />
+      <module name="tel-user-portrait-dataDisplay" target="1.8" />
+      <module name="tel-user-portrait-dataProducer" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
