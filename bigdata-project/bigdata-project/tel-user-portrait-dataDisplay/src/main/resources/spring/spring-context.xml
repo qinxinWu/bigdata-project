@@ -16,9 +16,9 @@
     
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://123.56.45.89:3306/tel?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf8"/>
-        <property name="user" value="root"/>
-        <property name="password" value="root666"/>
+        <property name="jdbcUrl" value="jdbc:mysql://数据库主机IP:3306/tel?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf8"/>
+        <property name="user" value="账户"/>
+        <property name="password" value="密码"/>
     </bean>
     
     <!-- 集成Mybatis框架 -->
